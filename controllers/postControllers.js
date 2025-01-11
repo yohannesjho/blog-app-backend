@@ -56,9 +56,23 @@ const updatePost = async ( req, res) => {
     }
 }
 
+const deletePost = async ( req, res ) => {
+    try {
+        const { id } = req.body
+
+        const userId  = req.user.id
+        const deletedPost = await postServices.deletePost( userId, id )
+
+        res.status(200).json({message:"you deleted your own post successfully!"})
+    } catch (error) {
+        res.status(error?.status || 500).json({message:"server error"})
+    }
+}
+
 module.exports = {
     createPost,
     getAllPosts,
     getPost,
-    updatePost
+    updatePost,
+    deletePost
 }

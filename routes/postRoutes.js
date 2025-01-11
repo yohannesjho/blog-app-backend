@@ -14,4 +14,8 @@ router.get('/getpost', authenticateToken, postControllers.getPost)
 
 router.post('/updatepost', authenticateToken, postControllers.updatePost)
 
+router.delete('/deletepost', authenticateToken, postControllers.deletePost)
+
+
+
 module.exports = router;

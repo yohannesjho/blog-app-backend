@@ -60,4 +60,16 @@ const updatePost = async ( userId, id, title, content) => {
     }
 }
 
-module.exports = {createPost, getAllPosts, getPost, updatePost}
+const deletePost = async ( userId, id ) => {
+    try {
+        const deletedPost = await sql`
+        DELETE FROM posts
+        WHERE user_id = ${userId} AND id = ${id}
+        `
+        
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = {createPost, getAllPosts, getPost, updatePost, deletePost}
