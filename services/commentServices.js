@@ -1,6 +1,6 @@
 const sql = require('../database/db')
 
-const createComment = async ( postId, userId ) => {
+const createComment = async (  userId, postId, content ) => {
     try {
         const comment = await sql`
         INSERT INTO comments(post_id, user_id, content)
@@ -27,12 +27,12 @@ const getComments = async ( postId ) => {
         throw error
     }
 }
-const updateComment = async ( id, userId, content ) => {
+const updateComment = async (userId, commentId, content ) => {
     try {
         const updatedComment = await sql`
         UPDATE comments
         SET content = ${content}
-        WHERE id = ${id} AND user_id = ${userId}
+        WHERE id = ${commentId} AND user_id = ${userId}
         `
 
         return updatedComment
@@ -40,12 +40,12 @@ const updateComment = async ( id, userId, content ) => {
         throw error
     }
 }
-const deletComment = async ( id, userId ) => {
+const deletComment = async ( commentId, userId ) => {
     try {
         const deletedComment = await sql`
         DELETE FROM comments
         
-        WHERE id = ${id} AND user_id = ${userId}
+        WHERE id = ${commentId} AND user_id = ${userId}
         `
 
         return deletedComment

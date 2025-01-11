@@ -9,9 +9,9 @@ router.post('/createcomment', authenticateToken, commentControllers.createCommen
 
 router.get('/getcomments', authenticateToken, commentControllers.getComments);
 
-router.post('/updatecomment', authenticateToken, commentControllers.updateComment);
+router.put('/updatecomment', authenticateToken, commentControllers.updateComment);
 
-router.post('/deletecomment', authenticateToken, commentControllers.deletComment);
+router.delete('/deletecomment', authenticateToken, commentControllers.deletComment);
 
 
 module.exports = router;
