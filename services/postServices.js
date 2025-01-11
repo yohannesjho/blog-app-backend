@@ -44,4 +44,20 @@ const getPost = async ( userId ) => {
     }
 }
 
-module.exports = {createPost, getAllPosts, getPost}
+const updatePost = async ( userId, id, title, content) => {
+    try {
+       const updatedPost =  await sql`
+        UPDATE posts
+        SET title = ${title}, content = ${content}
+        WHERE user_id = ${userId} AND id = ${id}
+        RETURNING user_Id, title, content
+        `
+
+        console.log('updated post from service', updatedPost)
+       return updatedPost;
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = {createPost, getAllPosts, getPost, updatePost}

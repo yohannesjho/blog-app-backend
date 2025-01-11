@@ -42,8 +42,23 @@ const getPost = async (req, res) => {
     }
 }
 
+const updatePost = async ( req, res) => {
+    try {
+        const { id, title, content } = req.body
+
+        const userId = req.user.id
+
+        const updatedPost = await postServices.updatePost(userId, id, title, content )
+
+        res.status(200).json({message:"you updated your own post successfully!", updatedPost:updatedPost})
+    } catch (error) {
+        res.status(error?.status || 500).json({message:"server error"})
+    }
+}
+
 module.exports = {
     createPost,
     getAllPosts,
-    getPost
+    getPost,
+    updatePost
 }

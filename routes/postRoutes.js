@@ -12,4 +12,6 @@ router.get('/getallposts', postControllers.getAllPosts)
 
 router.get('/getpost', authenticateToken, postControllers.getPost)
 
+router.post('/updatepost', authenticateToken, postControllers.updatePost)
+
 module.exports = router;
