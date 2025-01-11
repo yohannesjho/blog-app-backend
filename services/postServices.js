@@ -28,4 +28,20 @@ const getAllPosts = async () => {
        }
 }
 
-module.exports = {createPost, getAllPosts}
+const getPost = async ( userId ) => {
+    try {
+        const post = sql`
+        SELECT user_id, title, content, created_at
+
+        FROM posts
+
+        WHERE user_id = ${userId}
+        `
+
+        return post
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = {createPost, getAllPosts, getPost}

@@ -10,4 +10,6 @@ router.post('/createpost', authenticateToken, postControllers.createPost);
 
 router.get('/getallposts', postControllers.getAllPosts)
 
+router.get('/getpost', authenticateToken, postControllers.getPost)
+
 module.exports = router;

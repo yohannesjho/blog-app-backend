@@ -28,7 +28,22 @@ const getAllPosts = async (req, res) => {
     }
 }
 
+const getPost = async (req, res) => {
+    try {
+        const userId = req.user.id
+
+        const post = await postServices.getPost(userId)
+
+        console.log('posts from controller', post)
+
+        res.status(200).json({message:"here all your own posts", posts:post})
+    } catch (error) {
+        res.status(error?.status || 500).json({message:error?.message || 'server error'})
+    }
+}
+
 module.exports = {
     createPost,
-    getAllPosts
+    getAllPosts,
+    getPost
 }
