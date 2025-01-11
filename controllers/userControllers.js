@@ -31,9 +31,9 @@ const signInUser = async (req,res) => {
         }
 
         const user = await userServices.signInUser(email,password)
-        console.log('from controller', user)
+        console.log(user)
     } catch (error) {
-        console.log("controller error", error)
+        
         res.status(error?.status || 500).json({message:error?.message})
     }
 }

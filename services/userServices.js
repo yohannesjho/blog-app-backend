@@ -1,5 +1,6 @@
 const sql = require("../database/db");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
 
 const createUser = async (username, email, password) => {
   try {
@@ -53,12 +54,9 @@ const signInUser = async (email, password) => {
       throw  {message:"Invalid credentials", status:400};
     }
 
-    
+    const token = jwt.sign({id:user[0].id, email:user[0].email}, process.env.JWT_SECRET, {expiresIn:"1hr"})
     // Return the user details (excluding the password for security reasons)
-    return {
-      id: user[0].id,
-      email: user[0].email,
-    };
+    return token;
   } catch (error) {
     console.log("service error",error)
     throw error;
