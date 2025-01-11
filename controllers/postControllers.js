@@ -4,11 +4,13 @@ const createPost = async (req,res) => {
     try {
         const {title, content} = req.body
 
+        const  userId  = req.user.id
+
         if(!title || !content) {
            return res.status(400).json({message:"All fields are required!"})
         }
 
-        const post = await postServices.createPost(title, content)
+        const post = await postServices.createPost(userId, title, content)
 
         res.status(201).json({message:"new post is created successfully!"})
     } catch (error) {
@@ -16,6 +18,17 @@ const createPost = async (req,res) => {
     }
 }
 
+const getAllPosts = async (req, res) => {
+    try {
+        const posts = await postServices.getAllPosts()
+
+        res.status(200).json({message:"here all posts", posts:posts})
+    } catch (error) {
+        res.status(error?.statatus || 500).json({message:error?.message || "server error"})
+    }
+}
+
 module.exports = {
     createPost,
+    getAllPosts
 }

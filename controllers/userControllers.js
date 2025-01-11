@@ -31,7 +31,8 @@ const signInUser = async (req,res) => {
         }
 
         const user = await userServices.signInUser(email,password)
-        console.log(user)
+        
+        res.status(200).json({token:user})
     } catch (error) {
         
         res.status(error?.status || 500).json({message:error?.message})
