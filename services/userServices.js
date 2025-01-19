@@ -2,14 +2,14 @@ const sql = require("../database/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 
-const createUser = async (username, email, password) => {
+const createUser = async (username, email, password, assignedRole) => {
   try {
 
     
     // Check if the user already exists
     const userExists = await sql`SELECT email FROM users WHERE email = ${email}`;
 
-    console.log('from service',userExists )
+     
 
     if (userExists.length > 0) {
       throw new Error("Email is occupied");
@@ -20,17 +20,17 @@ const createUser = async (username, email, password) => {
 
     
 
+    
     // Insert the new user into the database
     const result = await sql`
-      INSERT INTO users (username, email, password)
-      VALUES (${username}, ${email}, ${hashedPassword})
-      RETURNING id, username, email;
+      INSERT INTO users (username, email, password, role)
+      VALUES (${username}, ${email}, ${hashedPassword}, ${assignedRole})
+      RETURNING id, username, email, role;
     `;
-    console.log('inserted user', result)
+    
     return result[0]; // Return the inserted user
   } catch (error) {
-    
-    throw new Error("Database error: " + error.message);
+    throw new Error(  error.message );
   }
 };
 
@@ -58,7 +58,7 @@ const signInUser = async (email, password) => {
     // Return the user details (excluding the password for security reasons)
     return token;
   } catch (error) {
-    console.log("service error",error)
+    
     throw error;
   }
 };

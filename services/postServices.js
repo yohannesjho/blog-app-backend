@@ -1,11 +1,11 @@
 const sql = require('../database/db')
-const createPost = async (userId, title, content) => {
+const createPost = async (userId, title, content, imageUrl) => {
 
     console.log(userId)
     try {
        const post = await sql`
-        INSERT INTO posts(title, content, user_id)
-        VALUES(${title}, ${content}, ${userId})
+        INSERT INTO posts(title, content, user_id, img_url)
+        VALUES(${title}, ${content}, ${userId}, ${imageUrl})
         `;
 
          
@@ -17,43 +17,44 @@ const createPost = async (userId, title, content) => {
 const getAllPosts = async () => {
        try {
         const posts = await sql`
-         SELECT user_id, title, content, created_at
+         SELECT id, user_id, title, content, created_at
 
          FROM posts
         `
-    console.log('posts from service', posts)
+     
         return posts;
        } catch (error) {
         throw error
        }
 }
 
-const getPost = async ( userId ) => {
+const getPost = async ( userId, blogId ) => {
+     
     try {
-        const post = sql`
-        SELECT user_id, title, content, created_at
+
+        const post = await sql`
+        SELECT  title, content, img_url, created_at
 
         FROM posts
 
-        WHERE user_id = ${userId}
+        WHERE user_id = ${userId} AND id = ${blogId} 
         `
-
+       
         return post
     } catch (error) {
         throw error
     }
 }
 
-const updatePost = async ( userId, id, title, content) => {
+const updatePost = async ( userId, blogId, title, content, imageUrl) => {
     try {
+       
        const updatedPost =  await sql`
         UPDATE posts
-        SET title = ${title}, content = ${content}
-        WHERE user_id = ${userId} AND id = ${id}
+        SET title = ${title}, content = ${content}, img_url = ${imageUrl}
+        WHERE user_id = ${userId} AND id = ${blogId}
         RETURNING user_Id, title, content
         `
-
-        console.log('updated post from service', updatedPost)
        return updatedPost;
     } catch (error) {
         throw error
@@ -61,12 +62,15 @@ const updatePost = async ( userId, id, title, content) => {
 }
 
 const deletePost = async ( userId, id ) => {
+    console.log( userId, id )
     try {
         const deletedPost = await sql`
         DELETE FROM posts
         WHERE user_id = ${userId} AND id = ${id}
+        RETURNING *
         `
-        
+     
+        return deletedPost
     } catch (error) {
         throw error
     }

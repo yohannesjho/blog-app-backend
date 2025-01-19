@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken')
 const authenticateToken = (req, res, next) => {
          const token = req.headers.authorization.split(' ')[1]
-
-         console.log("token from auth", token)
-
          if(!token){
             return res.status(400).json({message:"no token provided"})
          }
@@ -15,7 +12,7 @@ const authenticateToken = (req, res, next) => {
             }
 
             req.user = user;
-            console.log( user)
+           console.log(req.user)
 
             next();
          })

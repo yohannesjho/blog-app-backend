@@ -3,16 +3,20 @@ const userServices = require('../services/userServices')
 const createUser = async (req,res) => {
 
     try {
-        const {userName, email, password} = req.body
+        console.log(req.body)
+        const {userName, email, password, role} = req.body
 
     
         if(!userName || !email || !password) {
            return res.status(400).json({message:"All fields are required!"})
         }
+
+        const validRoles = ['user', 'admin'];
+        const assignedRole = validRoles.includes(role) ? role : 'user';
     
-        const user = await userServices.createUser(userName, email, password)
+        const user = await userServices.createUser(userName, email, password, assignedRole)
         
-        console.log(" from controller ",user)
+         
 
         res.status(201).json({message:"New user is created successfully!"})
         
@@ -35,7 +39,7 @@ const signInUser = async (req,res) => {
         res.status(200).json({token:user})
     } catch (error) {
         
-        res.status(error?.status || 500).json({message:error?.message})
+        res.status(error?.status || 500).json({message:error?.message || "server error!"})
     }
 }
 

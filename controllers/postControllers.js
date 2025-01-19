@@ -2,7 +2,13 @@ const postServices = require('../services/postServices')
 
 const createPost = async (req,res) => {
     try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image upload failed' });
+          }
+          
         const {title, content} = req.body
+       
+        const imageUrl = req.file.path; 
 
         const  userId  = req.user.id
 
@@ -10,7 +16,7 @@ const createPost = async (req,res) => {
            return res.status(400).json({message:"All fields are required!"})
         }
 
-        const post = await postServices.createPost(userId, title, content)
+        const post = await postServices.createPost(userId, title, content, imageUrl)
 
         res.status(201).json({message:"new post is created successfully!"})
     } catch (error) {
@@ -30,13 +36,17 @@ const getAllPosts = async (req, res) => {
 
 const getPost = async (req, res) => {
     try {
+        
+        const blogId = req.params.id
+        
+
         const userId = req.user.id
 
-        const post = await postServices.getPost(userId)
+        const post = await postServices.getPost(userId,blogId)
 
-        console.log('posts from controller', post)
+        
 
-        res.status(200).json({message:"here all your own posts", posts:post})
+        res.status(200).json({message:"here all your own posts", post:post})
     } catch (error) {
         res.status(error?.status || 500).json({message:error?.message || 'server error'})
     }
@@ -44,11 +54,20 @@ const getPost = async (req, res) => {
 
 const updatePost = async ( req, res) => {
     try {
-        const { id, title, content } = req.body
+         
+        const blogId = req.params.id
 
         const userId = req.user.id
 
-        const updatedPost = await postServices.updatePost(userId, id, title, content )
+        const { title, content } = req.body
+       
+        const imageUrl = req.file.path; 
+
+
+
+        const updatedPost = await postServices.updatePost(userId, blogId, title, content, imageUrl )
+
+         
 
         res.status(200).json({message:"you updated your own post successfully!", updatedPost:updatedPost})
     } catch (error) {
@@ -58,7 +77,9 @@ const updatePost = async ( req, res) => {
 
 const deletePost = async ( req, res ) => {
     try {
-        const { id } = req.body
+        const { id } = req.params
+
+        console.log("this id will be deleted", id)
 
         const userId  = req.user.id
         const deletedPost = await postServices.deletePost( userId, id )
