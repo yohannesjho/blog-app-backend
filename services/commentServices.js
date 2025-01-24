@@ -15,11 +15,12 @@ const createComment = async (  userId, postId, content ) => {
 }
 
 const getComments = async ( postId ) => {
+    
     try {
         const comments = await sql`
-        SELECT user_id, content, created_at
+        SELECT id, user_id, content, created_at
         FROM comments
-        WHERE post_id = ${postId}
+        WHERE post_id = ${postId} 
         `
 
         return comments
@@ -33,8 +34,9 @@ const updateComment = async (userId, commentId, content ) => {
         UPDATE comments
         SET content = ${content}
         WHERE id = ${commentId} AND user_id = ${userId}
+        RETURNING content
         `
-
+console.log(updatedComment)
         return updatedComment
     } catch (error) {
         throw error

@@ -44,9 +44,9 @@ const getPost = async (req, res) => {
 
         const post = await postServices.getPost(userId,blogId)
 
-        
+         
 
-        res.status(200).json({message:"here all your own posts", post:post})
+        res.status(200).json({message:"here the post", post:post})
     } catch (error) {
         res.status(error?.status || 500).json({message:error?.message || 'server error'})
     }

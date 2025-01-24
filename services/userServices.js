@@ -63,7 +63,22 @@ const signInUser = async (email, password) => {
   }
 };
 
+const getUser = async ( id ) => {
+  try {
+    const user = await sql`
+    SELECT username, role
+    FROM users
+    WHERE id = ${id}
+    `
+
+    return user
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   signInUser,
+  getUser
 };

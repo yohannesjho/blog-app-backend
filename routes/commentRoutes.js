@@ -7,11 +7,11 @@ const authenticateToken = require('../middleware/authenticateToken')
 
 router.post('/createcomment', authenticateToken, commentControllers.createComment);
 
-router.get('/getcomments', authenticateToken, commentControllers.getComments);
+router.get('/getcomments/:id', authenticateToken, commentControllers.getComments);
 
-router.put('/updatecomment', authenticateToken, commentControllers.updateComment);
+router.put('/updatecomment/:id', authenticateToken, commentControllers.updateComment);
 
-router.delete('/deletecomment', authenticateToken, commentControllers.deletComment);
+router.delete('/deletecomment/:id', authenticateToken, commentControllers.deletComment);
 
 
 module.exports = router;

@@ -18,7 +18,7 @@ const commentRoutes = require('./routes/commentRoutes')
 
 const app = express()
 
-const origins = ["http://localhost:5173","http://localhost:5175"];
+const origins = ["http://localhost:5173","http://localhost:5174"];
 
 app.use(cors({
     origin: origins

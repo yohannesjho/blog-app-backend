@@ -17,7 +17,7 @@ const createPost = async (userId, title, content, imageUrl) => {
 const getAllPosts = async () => {
        try {
         const posts = await sql`
-         SELECT id, user_id, title, content, created_at
+         SELECT id, user_id, title, content,img_url, created_at
 
          FROM posts
         `
@@ -37,7 +37,7 @@ const getPost = async ( userId, blogId ) => {
 
         FROM posts
 
-        WHERE user_id = ${userId} AND id = ${blogId} 
+        WHERE   id = ${blogId} 
         `
        
         return post

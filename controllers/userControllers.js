@@ -43,4 +43,17 @@ const signInUser = async (req,res) => {
     }
 }
 
-module.exports = { createUser, signInUser }
+const getUser = async ( req, res ) => {
+  try {
+     const id = req.params.id
+     console.log(id)
+
+     const user = await userServices.getUser(parseInt(id))
+ console.log(user)
+     res.status(200).json({user:user})
+  } catch (error) {
+    res.status(error?.status || 500).json({message:error?.message || "server error!"})
+  }
+}
+
+module.exports = { createUser, signInUser, getUser }
