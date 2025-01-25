@@ -18,7 +18,7 @@ const commentRoutes = require('./routes/commentRoutes')
 
 const app = express()
 
-const origins = ["http://localhost:5173","http://localhost:5174"];
+const origins = ["http://localhost:5173","http://localhost:5174","https://blog-frontend-sable-ten.vercel.app"];
 
 app.use(cors({
     origin: origins
