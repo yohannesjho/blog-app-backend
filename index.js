@@ -16,6 +16,8 @@ const postRoutes = require('./routes/postRoutes')
 
 const commentRoutes = require('./routes/commentRoutes')
 
+const feedBackRoutes =require('./routes/feedBackRoutes')
+
 const app = express()
 
 const origins = ["http://localhost:5173","http://localhost:5174","https://blog-frontend-sable-ten.vercel.app", "https://blog-admin-rosy-nine.vercel.app"];
@@ -33,6 +35,8 @@ app.use('/api/users', userRoutes)
 app.use('/api/posts', postRoutes)
 
 app.use('/api/comments', commentRoutes)
+
+app.use('/api/feedbacks', feedBackRoutes)
 
 
 
