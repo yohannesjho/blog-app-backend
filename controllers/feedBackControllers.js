@@ -8,7 +8,7 @@ const createFeedback = async (req, res) => {
 
         res.status(201).json({message:"you send a message succussfully!"})
     } catch (error) {
-        res.status(error?.status || 500).json({message:error?.message || "server error" })
+        res.status(500).json({message:  "server error" })
     }
 }
 

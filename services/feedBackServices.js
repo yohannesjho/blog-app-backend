@@ -1,12 +1,14 @@
 const sql = require('../database/db')
 
 const createFeedback = async (name, email, message) => {
+    console.log(name, email, message)
     try {
         const feedback = await sql`
-        INSERT INTO feedbacks(name, email, message)
-        VALUES (${name}, ${email}, ${ message } 
-        RETURNING name, message
-        `
+  INSERT INTO feedbacks(name, email, message)
+  VALUES (${name}, ${email}, ${message})
+  RETURNING name, message;
+`;
+
         console.log(feedback)
         return feedback
     } catch (error) {
@@ -20,10 +22,10 @@ const getFeedBacks = async () => {
         SELECT  name, email, message, created_at
         FROM feedbacks
         `
-    return getFeedBacks;
+        return getFeedBacks;
     } catch (error) {
         throw error
     }
 }
 
-module.exports = { createFeedback,  getFeedBacks}
+module.exports = { createFeedback, getFeedBacks }
