@@ -60,8 +60,13 @@ const updatePost = async ( req, res) => {
         const userId = req.user.id
 
         const { title, content } = req.body
+        
        
-        const imageUrl = req.file.path; 
+        let imageUrl
+        if(req.file) {
+
+              imageUrl = req.file.path; 
+        }
 
 
 
@@ -71,6 +76,7 @@ const updatePost = async ( req, res) => {
 
         res.status(200).json({message:"you updated your own post successfully!", updatedPost:updatedPost})
     } catch (error) {
+        console.log(error)
         res.status(error?.status || 500).json({message:"server error"})
     }
 }
