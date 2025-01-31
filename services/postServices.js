@@ -49,12 +49,16 @@ const getPost = async ( userId, blogId ) => {
 const updatePost = async ( userId, blogId, title, content, imageUrl) => {
     try {
        
-       const updatedPost =  await sql`
+        const updatedPost = await sql`
         UPDATE posts
-        SET title = ${title}, content = ${content}, img_url = ${imageUrl}
+        SET 
+            title = ${title}, 
+            content = ${content}
+            ${imageUrl ? sql`, img_url = ${imageUrl}` : sql``}
         WHERE user_id = ${userId} AND id = ${blogId}
-        RETURNING user_Id, title, content
-        `
+        RETURNING user_Id, title, content, img_url
+    `;
+    
        return updatedPost;
     } catch (error) {
         throw error
